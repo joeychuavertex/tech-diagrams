@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture Diagram Layouts Reference</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #111827;
+        }
+        .layout-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .layout-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .layout-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .layout-header {
+            background: #2E75B6;
+            color: white;
+            padding: 16px;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .layout-content {
+            padding: 20px;
+        }
+        .layout-description {
+            color: #6b7280;
+            margin-bottom: 16px;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        .layout-specs {
+            background: #f9fafb;
+            border-left: 4px solid #2E75B6;
+            padding: 12px;
+            margin-bottom: 16px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .spec-label {
+            font-weight: 600;
+            color: #374151;
+        }
+        .spec-value {
+            color: #6b7280;
+        }
+        svg {
+            width: 100%;
+            height: auto;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            background: #fafafa;
+            margin-top: 12px;
+        }
+        .use-cases {
+            margin-top: 12px;
+            padding: 12px;
+            background: #f0f9ff;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .use-cases strong {
+            color: #0369a1;
+        }
+        .use-cases ul {
+            margin-left: 20px;
+            margin-top: 6px;
+            color: #0c4a6e;
+            line-height: 1.5;
+        }
+        .coordinate-info {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 12px;
+            padding: 8px;
+            background: #f3f4f6;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Architecture Diagram Layouts Reference</h1>
+        
+        <div class="layout-grid">
+            <!-- Swimlane Flowchart -->
+            <div class="layout-card">
+                <div class="layout-header">Swimlane Flowchart</div>
+                <div class="layout-content">
+                    <p class="layout-description">Parallel process flows with separate lanes for different actors, teams, or systems. Arrows show handoffs and dependencies.</p>
+                    <div class="layout-specs">
+                        <div class="spec-row">
+                            <span class="spec-label">Canvas Size:</span>
+                            <span class="spec-value">1100×720</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Lane Height:</span>
+                            <span class="spec-value">140–180px</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Node Spacing:</span>
+                            <span class="spec-value">80–100px (horizontal)</span>
+                        </div>
+                    </div>
+                    <svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#2E75B6" />
+                            </marker>
+                        </defs>
+                        <!-- Lane 1 -->
+                        <rect x="10" y="10" width="480" height="55" fill="none" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="4,4"/>
+                        <text x="15" y="43" font-size="12" font-weight="700" fill="#374151">User</text>
+                        <rect x="70" y="25" width="80" height="40" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="110" y="52" font-size="11" font-weight="700" text-anchor="middle" fill="#111827">Submit</text>
+                        <path d="M 150 45 L 180 45" stroke="#2E75B6" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        <rect x="180" y="25" width="80" height="40" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="220" y="52" font-size="11" font-weight="700" text-anchor="middle" fill="#111827">Review</text>
+                        <!-- Lane 2 -->
+                        <rect x="10" y="75" width="480" height="55" fill="none" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="4,4"/>
+                        <text x="15" y="108" font-size="12" font-weight="700" fill="#374151">Admin</text>
+                        <rect x="180" y="90" width="80" height="40" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="220" y="117" font-size="11" font-weight="700" text-anchor="middle" fill="#111827">Approve</text>
+                        <path d="M 150 65 L 150 90" stroke="#2E75B6" stroke-width="1.5" marker-end="url(#arrowhead)" stroke-dasharray="4,4"/>
+                        <path d="M 220 130 L 220 155" stroke="#2E75B6" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        <!-- Lane 3 -->
+                        <rect x="10" y="140" width="480" height="50" fill="none" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="4,4"/>
+                        <text x="15" y="173" font-size="12" font-weight="700" fill="#374151">System</text>
+                    </svg>
+                    <div class="use-cases">
+                        <strong>Best for:</strong>
+                        <ul>
+                            <li>Multi-actor workflows (user → admin → system)</li>
+                            <li>Process flows with handoffs</li>
+                            <li>Team responsibilities and dependencies</li>
+                        </ul>
+                    </div>
+                    <div class="coordinate-info">
+                        Base node: (x, y) in lane | Lane spacing: y += 65
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cloud Architecture -->
+            <div class="layout-card">
+                <div class="layout-header">Cloud Architecture Diagram</div>
+                <div class="layout-content">
+                    <p class="layout-description">Microservices, cloud services, and distributed systems with connectivity between services.</p>
+                    <div class="layout-specs">
+                        <div class="spec-row">
+                            <span class="spec-label">Canvas Size:</span>
+                            <span class="spec-value">1000×700</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Node Size:</span>
+                            <span class="spec-value">140×70 to 160×80</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Grid Spacing:</span>
+                            <span class="spec-value">250×150px</span>
+                        </div>
+                    </div>
+                    <svg viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#2E75B6" />
+                            </marker>
+                        </defs>
+                        <!-- Client -->
+                        <rect x="20" y="100" width="80" height="50" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="60" y="130" font-size="11" font-weight="700" text-anchor="middle" fill="#111827">Client</text>
+                        <!-- API Gateway -->
+                        <path d="M 130 80 L 170 50 L 210 80 L 170 110 Z" fill="#fff" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="170" y="115" font-size="10" font-weight="700" text-anchor="middle" fill="#111827">API GW</text>
+                        <!-- Microservices -->
+                        <rect x="240" y="30" width="80" height="50" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="280" y="60" font-size="10" font-weight="700" text-anchor="middle" fill="#111827">Service A</text>
+                        <rect x="240" y="120" width="80" height="50" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="280" y="150" font-size="10" font-weight="700" text-anchor="middle" fill="#111827">Service B</text>
+                        <!-- Database -->
+                        <rect x="380" y="60" width="70" height="70" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="415" y="100" font-size="10" font-weight="700" text-anchor="middle" fill="#111827">Database</text>
+                        <!-- Connections -->
+                        <path d="M 100 125 L 130 95" stroke="#2E75B6" stroke-width="1.5" marker-end="url(#arrowhead2)"/>
+                        <path d="M 210 80 L 240 55" stroke="#2E75B6" stroke-width="1.5" marker-end="url(#arrowhead2)"/>
+                        <path d="M 210 100 L 240 145" stroke="#2E75B6" stroke-width="1.5" marker-end="url(#arrowhead2)"/>
+                        <path d="M 320 55 L 380 85" stroke="#2E75B6" stroke-width="1.5" marker-end="url(#arrowhead2)"/>
+                        <path d="M 320 145 L 380 115" stroke="#2E75B6" stroke-width="1.5" marker-end="url(#arrowhead2)"/>
+                    </svg>
+                    <div class="use-cases">
+                        <strong>Best for:</strong>
+                        <ul>
+                            <li>Microservices architectures</li>
+                            <li>Cloud infrastructure (AWS, GCP, Azure)</li>
+                            <li>Service-to-service communication</li>
+                        </ul>
+                    </div>
+                    <div class="coordinate-info">
+                        Nodes arranged in grid | Arrows connect services bidirectionally
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sequence Diagram -->
+            <div class="layout-card">
+                <div class="layout-header">Sequence Diagram</div>
+                <div class="layout-content">
+                    <p class="layout-description">Time-ordered interactions between actors or services. Vertical timelines with horizontal interaction arrows.</p>
+                    <div class="layout-specs">
+                        <div class="spec-row">
+                            <span class="spec-label">Canvas Size:</span>
+                            <span class="spec-value">1200×900</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Actor Spacing:</span>
+                            <span class="spec-value">200–250px</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Message Height:</span>
+                            <span class="spec-value">60–80px</span>
+                        </div>
+                    </div>
+                    <svg viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <marker id="arrowhead3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#2E75B6" />
+                            </marker>
+                            <marker id="arrowdashed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#9ca3af" />
+                            </marker>
+                        </defs>
+                        <!-- Actor boxes -->
+                        <rect x="30" y="20" width="70" height="40" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="65" y="47" font-size="10" font-weight="700" text-anchor="middle" fill="#111827">User</text>
+                        <rect x="200" y="20" width="70" height="40" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="235" y="47" font-size="10" font-weight="700" text-anchor="middle" fill="#111827">API</text>
+                        <rect x="370" y="20" width="70" height="40" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="405" y="47" font-size="10" font-weight="700" text-anchor="middle" fill="#111827">Database</text>
+                        <!-- Lifelines -->
+                        <line x1="65" y1="60" x2="65" y2="240" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2,2"/>
+                        <line x1="235" y1="60" x2="235" y2="240" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2,2"/>
+                        <line x1="405" y1="60" x2="405" y2="240" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2,2"/>
+                        <!-- Messages -->
+                        <path d="M 65 80 L 235 80" stroke="#2E75B6" stroke-width="1.5" marker-end="url(#arrowhead3)"/>
+                        <text x="145" y="75" font-size="9" text-anchor="middle" fill="#6b7280">request()</text>
+                        <path d="M 235 110 L 405 110" stroke="#2E75B6" stroke-width="1.5" marker-end="url(#arrowhead3)"/>
+                        <text x="315" y="105" font-size="9" text-anchor="middle" fill="#6b7280">query()</text>
+                        <path d="M 405 140 L 235 140" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="2,2" marker-end="url(#arrowdashed)"/>
+                        <text x="315" y="135" font-size="9" text-anchor="middle" fill="#6b7280">result</text>
+                        <path d="M 235 170 L 65 170" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="2,2" marker-end="url(#arrowdashed)"/>
+                        <text x="145" y="165" font-size="9" text-anchor="middle" fill="#6b7280">response</text>
+                    </svg>
+                    <div class="use-cases">
+                        <strong>Best for:</strong>
+                        <ul>
+                            <li>Request/response flows</li>
+                            <li>Interaction timing diagrams</li>
+                            <li>Message passing between actors</li>
+                        </ul>
+                    </div>
+                    <div class="coordinate-info">
+                        Actors at top | Lifelines drop vertically | Messages move horizontally
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Flow Diagram -->
+            <div class="layout-card">
+                <div class="layout-header">Data Flow Diagram (DFD)</div>
+                <div class="layout-content">
+                    <p class="layout-description">Data movement and transformation across processes, data stores, and entities. Shows input → processing → output.</p>
+                    <div class="layout-specs">
+                        <div class="spec-row">
+                            <span class="spec-label">Canvas Size:</span>
+                            <span class="spec-value">1000×700</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Node Types:</span>
+                            <span class="spec-value">Circle (process), Rectangle (store)</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Data Labels:</span>
+                            <span class="spec-value">On arrows</span>
+                        </div>
+                    </div>
+                    <svg viewBox="0 0 500 220" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <marker id="arrowhead4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#2E75B6" />
+                            </marker>
+                        </defs>
+                        <!-- External entity -->
+                        <rect x="30" y="85" width="60" height="50" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="60" y="115" font-size="10" font-weight="700" text-anchor="middle" fill="#111827">User</text>
+                        <!-- Process (circle) -->
+                        <circle cx="160" cy="110" r="35" fill="#fff" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="160" y="115" font-size="10" font-weight="700" text-anchor="middle" fill="#111827">Process</text>
+                        <!-- Data Store -->
+                        <rect x="300" y="85" width="60" height="50" rx="2" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="330" y="115" font-size="10" font-weight="700" text-anchor="middle" fill="#111827">Store</text>
+                        <!-- Output -->
+                        <rect x="420" y="85" width="60" height="50" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="450" y="115" font-size="10" font-weight="700" text-anchor="middle" fill="#111827">Output</text>
+                        <!-- Arrows -->
+                        <path d="M 90 110 L 125 110" stroke="#2E75B6" stroke-width="2" marker-end="url(#arrowhead4)"/>
+                        <text x="107" y="105" font-size="8" text-anchor="middle" fill="#6b7280">input</text>
+                        <path d="M 195 110 L 300 110" stroke="#2E75B6" stroke-width="2" marker-end="url(#arrowhead4)"/>
+                        <text x="247" y="105" font-size="8" text-anchor="middle" fill="#6b7280">data</text>
+                        <path d="M 360 110 L 420 110" stroke="#2E75B6" stroke-width="2" marker-end="url(#arrowhead4)"/>
+                        <text x="390" y="105" font-size="8" text-anchor="middle" fill="#6b7280">result</text>
+                        <!-- Return arrow -->
+                        <path d="M 330 140 L 190 140" stroke="#2E75B6" stroke-width="1.5" stroke-dasharray="2,2" marker-end="url(#arrowhead4)"/>
+                    </svg>
+                    <div class="use-cases">
+                        <strong>Best for:</strong>
+                        <ul>
+                            <li>ETL pipelines (Extract → Transform → Load)</li>
+                            <li>Data transformation flows</li>
+                            <li>Information system design</li>
+                        </ul>
+                    </div>
+                    <div class="coordinate-info">
+                        Processes: circles | Data stores: rectangles | Label arrows with data type
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entity Relationship Diagram -->
+            <div class="layout-card">
+                <div class="layout-header">Entity Relationship Diagram (ERD)</div>
+                <div class="layout-content">
+                    <p class="layout-description">Database schema with entities, attributes, and relationships. Shows cardinality and key constraints.</p>
+                    <div class="layout-specs">
+                        <div class="spec-row">
+                            <span class="spec-label">Canvas Size:</span>
+                            <span class="spec-value">1000×700</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Entity Box:</span>
+                            <span class="spec-value">160×80</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Cardinality:</span>
+                            <span class="spec-value">1:1, 1:N, M:N symbols</span>
+                        </div>
+                    </div>
+                    <svg viewBox="0 0 500 220" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <marker id="arrowhead5" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#2E75B6" />
+                            </marker>
+                        </defs>
+                        <!-- User Entity -->
+                        <rect x="30" y="70" width="100" height="80" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="2"/>
+                        <text x="80" y="92" font-size="11" font-weight="700" text-anchor="middle" fill="#111827">User</text>
+                        <line x1="30" y1="100" x2="130" y2="100" stroke="#2E75B6" stroke-width="1"/>
+                        <text x="35" y="115" font-size="9" fill="#6b7280">ID (PK)</text>
+                        <text x="35" y="130" font-size="9" fill="#6b7280">Name</text>
+                        <!-- Order Entity -->
+                        <rect x="210" y="70" width="100" height="80" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="2"/>
+                        <text x="260" y="92" font-size="11" font-weight="700" text-anchor="middle" fill="#111827">Order</text>
+                        <line x1="210" y1="100" x2="310" y2="100" stroke="#2E75B6" stroke-width="1"/>
+                        <text x="215" y="115" font-size="9" fill="#6b7280">ID (PK)</text>
+                        <text x="215" y="130" font-size="9" fill="#6b7280">User_ID (FK)</text>
+                        <!-- Relationship -->
+                        <path d="M 130 110 L 210 110" stroke="#2E75B6" stroke-width="1.5" marker-end="url(#arrowhead5)"/>
+                        <text x="170" y="105" font-size="10" font-weight="700" text-anchor="middle" fill="#2E75B6">1:N</text>
+                    </svg>
+                    <div class="use-cases">
+                        <strong>Best for:</strong>
+                        <ul>
+                            <li>Database schema design</li>
+                            <li>Table relationships and constraints</li>
+                            <li>Normalized data models</li>
+                        </ul>
+                    </div>
+                    <div class="coordinate-info">
+                        Entities in rectangles | Primary keys (PK) and foreign keys (FK) labelled | Cardinality on arrows
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top-Down Flowchart -->
+            <div class="layout-card">
+                <div class="layout-header">Top-Down Flowchart</div>
+                <div class="layout-content">
+                    <p class="layout-description">Hierarchical step-by-step flows. Top node represents the start or main process, branching downward.</p>
+                    <div class="layout-specs">
+                        <div class="spec-row">
+                            <span class="spec-label">Canvas Size:</span>
+                            <span class="spec-value">800×900</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Level Spacing:</span>
+                            <span class="spec-value">150–180px (vertical)</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Node Centering:</span>
+                            <span class="spec-value">Automatic</span>
+                        </div>
+                    </div>
+                    <svg viewBox="0 0 300 250" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <marker id="arrowhead6" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#2E75B6" />
+                            </marker>
+                        </defs>
+                        <!-- Start -->
+                        <rect x="110" y="10" width="80" height="40" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="150" y="35" font-size="10" font-weight="700" text-anchor="middle" fill="#111827">Start</text>
+                        <!-- Level 2 -->
+                        <path d="M 150 50 L 150 70" stroke="#2E75B6" stroke-width="1.5" marker-end="url(#arrowhead6)"/>
+                        <rect x="50" y="70" width="80" height="40" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="90" y="95" font-size="10" font-weight="700" text-anchor="middle" fill="#111827">Step 1</text>
+                        <rect x="170" y="70" width="80" height="40" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="210" y="95" font-size="10" font-weight="700" text-anchor="middle" fill="#111827">Step 2</text>
+                        <!-- Branch connectors -->
+                        <path d="M 150 50 L 150 60 L 90 60 L 90 70" stroke="#2E75B6" stroke-width="1.5" fill="none" marker-end="url(#arrowhead6)"/>
+                        <path d="M 150 50 L 150 60 L 210 60 L 210 70" stroke="#2E75B6" stroke-width="1.5" fill="none" marker-end="url(#arrowhead6)"/>
+                        <!-- Level 3 -->
+                        <path d="M 90 110 L 90 130" stroke="#2E75B6" stroke-width="1.5" marker-end="url(#arrowhead6)"/>
+                        <path d="M 210 110 L 210 130" stroke="#2E75B6" stroke-width="1.5" marker-end="url(#arrowhead6)"/>
+                        <rect x="40" y="130" width="80" height="40" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="80" y="155" font-size="10" font-weight="700" text-anchor="middle" fill="#111827">Result</text>
+                        <rect x="160" y="130" width="80" height="40" rx="4" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="200" y="155" font-size="10" font-weight="700" text-anchor="middle" fill="#111827">Result</text>
+                    </svg>
+                    <div class="use-cases">
+                        <strong>Best for:</strong>
+                        <ul>
+                            <li>Decision trees</li>
+                            <li>Algorithm flowcharts</li>
+                            <li>Hierarchical process breakdowns</li>
+                        </ul>
+                    </div>
+                    <div class="coordinate-info">
+                        Root node at top | Branch connectors | Auto-center alignment
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture Diagram Themes Reference</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #111827;
+        }
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 40px;
+            font-size: 14px;
+        }
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .theme-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .theme-header {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .theme-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+        .theme-description {
+            font-size: 13px;
+            color: #6b7280;
+        }
+        .theme-preview {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .color-swatch {
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b7280;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            transition: transform 0.2s ease;
+        }
+        .color-swatch:hover {
+            transform: scale(1.02);
+        }
+        .color-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            margin: 0 auto 8px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .color-label {
+            font-size: 11px;
+            color: #111827;
+            font-weight: 600;
+        }
+        .color-value {
+            font-size: 10px;
+            color: #9ca3af;
+            margin-top: 4px;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+        .theme-preview-svg {
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+        .theme-preview-svg svg {
+            width: 100%;
+            height: auto;
+        }
+        .css-vars {
+            padding: 20px;
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 11px;
+            overflow-x: auto;
+        }
+        .css-var-row {
+            padding: 4px 0;
+            color: #374151;
+            line-height: 1.6;
+        }
+        .var-name {
+            color: #0369a1;
+            font-weight: 600;
+        }
+        .var-value {
+            color: #c026d3;
+        }
+        .sample-diagram {
+            grid-column: 1 / -1;
+            padding: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+        .sample-diagram h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Architecture Diagram Themes Reference</h1>
+        <p class="subtitle">Live theme previews with CSS variable mappings for SVG generation</p>
+
+        <div class="theme-grid">
+            <!-- Corporate Theme -->
+            <div class="theme-card">
+                <div class="theme-header">
+                    <div class="theme-name">Corporate (Default)</div>
+                    <div class="theme-description">Professional blue & grey palette. Best for business and technical documentation.</div>
+                </div>
+                <div class="theme-preview">
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #fafafa;"></div>
+                            <div class="color-label">Background</div>
+                            <div class="color-value">#fafafa</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #111827;"></div>
+                            <div class="color-label">Text</div>
+                            <div class="color-value">#111827</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #fff;"></div>
+                            <div class="color-label">Node Fill</div>
+                            <div class="color-value">#ffffff</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #2E75B6;"></div>
+                            <div class="color-label">Accent</div>
+                            <div class="color-value">#2E75B6</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #CBD5E1;"></div>
+                            <div class="color-label">Node Stroke</div>
+                            <div class="color-value">#CBD5E1</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #EEF4FB;"></div>
+                            <div class="color-label">Node Fill Alt</div>
+                            <div class="color-value">#EEF4FB</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="theme-preview-svg">
+                    <svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <style>
+                                :root {
+                                    --bg: #fafafa;
+                                    --node: #fff;
+                                    --node-alt: #EEF4FB;
+                                    --node-s: #CBD5E1;
+                                    --txt: #111827;
+                                    --txt-m: #6b7280;
+                                    --accent: #2E75B6;
+                                }
+                            </style>
+                            <marker id="arrow-corp" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#2E75B6" />
+                            </marker>
+                        </defs>
+                        <rect x="20" y="20" width="120" height="60" rx="6" fill="#fff" stroke="#CBD5E1" stroke-width="1.5"/>
+                        <text x="80" y="50" font-size="13" font-weight="700" text-anchor="middle" fill="#111827">Service A</text>
+                        <path d="M 140 50 L 180 50" stroke="#2E75B6" stroke-width="2" marker-end="url(#arrow-corp)"/>
+                        <rect x="180" y="20" width="120" height="60" rx="6" fill="#EEF4FB" stroke="#2E75B6" stroke-width="1.5"/>
+                        <text x="240" y="50" font-size="13" font-weight="700" text-anchor="middle" fill="#111827">Service B</text>
+                        <rect x="340" y="20" width="40" height="60" rx="6" fill="#fff" stroke="#CBD5E1" stroke-width="1.5"/>
+                        <text x="360" y="55" font-size="12" font-weight="700" text-anchor="middle" fill="#111827">✓</text>
+                    </svg>
+                </div>
+                <div class="css-vars">
+                    <div class="css-var-row"><span class="var-name">--bg:</span> <span class="var-value">#fafafa</span></div>
+                    <div class="css-var-row"><span class="var-name">--node:</span> <span class="var-value">#ffffff</span></div>
+                    <div class="css-var-row"><span class="var-name">--node-alt:</span> <span class="var-value">#EEF4FB</span></div>
+                    <div class="css-var-row"><span class="var-name">--node-s:</span> <span class="var-value">#CBD5E1</span></div>
+                    <div class="css-var-row"><span class="var-name">--txt:</span> <span class="var-value">#111827</span></div>
+                    <div class="css-var-row"><span class="var-name">--txt-m:</span> <span class="var-value">#6b7280</span></div>
+                    <div class="css-var-row"><span class="var-name">--accent:</span> <span class="var-value">#2E75B6</span></div>
+                </div>
+            </div>
+
+            <!-- Clean/Minimal Theme -->
+            <div class="theme-card">
+                <div class="theme-header">
+                    <div class="theme-name">Clean/Minimal</div>
+                    <div class="theme-description">Light, airy, and neutral. Best for clean, modern designs.</div>
+                </div>
+                <div class="theme-preview">
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #ffffff;"></div>
+                            <div class="color-label">Background</div>
+                            <div class="color-value">#ffffff</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #374151;"></div>
+                            <div class="color-label">Text</div>
+                            <div class="color-value">#374151</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #f9fafb;"></div>
+                            <div class="color-label">Node Fill</div>
+                            <div class="color-value">#f9fafb</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #6b7280;"></div>
+                            <div class="color-label">Accent</div>
+                            <div class="color-value">#6b7280</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #e5e7eb;"></div>
+                            <div class="color-label">Node Stroke</div>
+                            <div class="color-value">#e5e7eb</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #f3f4f6;"></div>
+                            <div class="color-label">Node Fill Alt</div>
+                            <div class="color-value">#f3f4f6</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="theme-preview-svg">
+                    <svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <marker id="arrow-clean" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#6b7280" />
+                            </marker>
+                        </defs>
+                        <rect x="20" y="20" width="120" height="60" rx="6" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.5"/>
+                        <text x="80" y="50" font-size="13" font-weight="700" text-anchor="middle" fill="#374151">Service A</text>
+                        <path d="M 140 50 L 180 50" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow-clean)"/>
+                        <rect x="180" y="20" width="120" height="60" rx="6" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="1.5"/>
+                        <text x="240" y="50" font-size="13" font-weight="700" text-anchor="middle" fill="#374151">Service B</text>
+                        <rect x="340" y="20" width="40" height="60" rx="6" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.5"/>
+                        <text x="360" y="55" font-size="12" font-weight="700" text-anchor="middle" fill="#374151">✓</text>
+                    </svg>
+                </div>
+                <div class="css-vars">
+                    <div class="css-var-row"><span class="var-name">--bg:</span> <span class="var-value">#ffffff</span></div>
+                    <div class="css-var-row"><span class="var-name">--node:</span> <span class="var-value">#f9fafb</span></div>
+                    <div class="css-var-row"><span class="var-name">--node-alt:</span> <span class="var-value">#f3f4f6</span></div>
+                    <div class="css-var-row"><span class="var-name">--node-s:</span> <span class="var-value">#e5e7eb</span></div>
+                    <div class="css-var-row"><span class="var-name">--txt:</span> <span class="var-value">#374151</span></div>
+                    <div class="css-var-row"><span class="var-name">--txt-m:</span> <span class="var-value">#9ca3af</span></div>
+                    <div class="css-var-row"><span class="var-name">--accent:</span> <span class="var-value">#6b7280</span></div>
+                </div>
+            </div>
+
+            <!-- Blueprint Theme -->
+            <div class="theme-card">
+                <div class="theme-header">
+                    <div class="theme-name">Blueprint</div>
+                    <div class="theme-description">Dark tech aesthetic with bright blue accents. Best for dark mode & tech-forward designs.</div>
+                </div>
+                <div class="theme-preview">
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #0f172a;"></div>
+                            <div class="color-label">Background</div>
+                            <div class="color-value">#0f172a</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #e2e8f0;"></div>
+                            <div class="color-label">Text</div>
+                            <div class="color-value">#e2e8f0</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #1e293b;"></div>
+                            <div class="color-label">Node Fill</div>
+                            <div class="color-value">#1e293b</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #60a5fa;"></div>
+                            <div class="color-label">Accent</div>
+                            <div class="color-value">#60a5fa</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #3b82f6;"></div>
+                            <div class="color-label">Node Stroke</div>
+                            <div class="color-value">#3b82f6</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #0c4a6e;"></div>
+                            <div class="color-label">Node Fill Alt</div>
+                            <div class="color-value">#0c4a6e</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="theme-preview-svg" style="background: #0f172a;">
+                    <svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <marker id="arrow-bp" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#60a5fa" />
+                            </marker>
+                        </defs>
+                        <rect x="20" y="20" width="120" height="60" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+                        <text x="80" y="50" font-size="13" font-weight="700" text-anchor="middle" fill="#e2e8f0">Service A</text>
+                        <path d="M 140 50 L 180 50" stroke="#60a5fa" stroke-width="2" marker-end="url(#arrow-bp)"/>
+                        <rect x="180" y="20" width="120" height="60" rx="6" fill="#0c4a6e" stroke="#3b82f6" stroke-width="1.5"/>
+                        <text x="240" y="50" font-size="13" font-weight="700" text-anchor="middle" fill="#e2e8f0">Service B</text>
+                        <rect x="340" y="20" width="40" height="60" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+                        <text x="360" y="55" font-size="12" font-weight="700" text-anchor="middle" fill="#60a5fa">✓</text>
+                    </svg>
+                </div>
+                <div class="css-vars">
+                    <div class="css-var-row"><span class="var-name">--bg:</span> <span class="var-value">#0f172a</span></div>
+                    <div class="css-var-row"><span class="var-name">--node:</span> <span class="var-value">#1e293b</span></div>
+                    <div class="css-var-row"><span class="var-name">--node-alt:</span> <span class="var-value">#0c4a6e</span></div>
+                    <div class="css-var-row"><span class="var-name">--node-s:</span> <span class="var-value">#3b82f6</span></div>
+                    <div class="css-var-row"><span class="var-name">--txt:</span> <span class="var-value">#e2e8f0</span></div>
+                    <div class="css-var-row"><span class="var-name">--txt-m:</span> <span class="var-value">#94a3b8</span></div>
+                    <div class="css-var-row"><span class="var-name">--accent:</span> <span class="var-value">#60a5fa</span></div>
+                </div>
+            </div>
+
+            <!-- Colorful Theme -->
+            <div class="theme-card">
+                <div class="theme-header">
+                    <div class="theme-name">Colorful</div>
+                    <div class="theme-description">Soft grouped palette with lavender, mint, blue, and coral tones on an ivory canvas.</div>
+                </div>
+                <div class="theme-preview">
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #F5F2ED;"></div>
+                            <div class="color-label">Background</div>
+                            <div class="color-value">#F5F2ED</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #4A3F7A;"></div>
+                            <div class="color-label">Title Text</div>
+                            <div class="color-value">#4A3F7A</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #E8E4F3;"></div>
+                            <div class="color-label">Purple Fill</div>
+                            <div class="color-value">#E8E4F3</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #D4EDDA;"></div>
+                            <div class="color-label">Mint Top</div>
+                            <div class="color-value">#D4EDDA</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #DCEEE0;"></div>
+                            <div class="color-label">Mint Bottom</div>
+                            <div class="color-value">#DCEEE0</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #D6E4F0;"></div>
+                            <div class="color-label">Blue Fill</div>
+                            <div class="color-value">#D6E4F0</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #F8DCC8;"></div>
+                            <div class="color-label">Coral Fill</div>
+                            <div class="color-value">#F8DCC8</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #D89B7A;"></div>
+                            <div class="color-label">Coral Border</div>
+                            <div class="color-value">#D89B7A</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="theme-preview-svg" style="background: #FAF8F4;">
+                    <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <marker id="arrow-color" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#D89B7A" />
+                            </marker>
+                        </defs>
+                        <rect x="10" y="10" width="380" height="200" rx="8" fill="none" stroke="#C9C2B5" stroke-width="1.5" stroke-dasharray="6,4"/>
+                        <rect x="30" y="30" width="110" height="60" rx="8" fill="#E8E4F3" stroke="#A89BC9" stroke-width="1.5"/>
+                        <text x="85" y="55" font-size="13" font-weight="700" text-anchor="middle" fill="#4A3F7A">Label A</text>
+                        <text x="85" y="72" font-size="11" text-anchor="middle" fill="#7A6FA0">Purple section</text>
+                        <rect x="160" y="30" width="110" height="60" rx="8" fill="#D4EDDA" stroke="#7FB892" stroke-width="1.5"/>
+                        <text x="215" y="55" font-size="13" font-weight="700" text-anchor="middle" fill="#2D6A4F">Label B</text>
+                        <text x="215" y="72" font-size="11" text-anchor="middle" fill="#5A8A6E">Mint top row</text>
+                        <rect x="290" y="30" width="80" height="60" rx="8" fill="#D6E4F0" stroke="#7FA3C9" stroke-width="1.5"/>
+                        <text x="330" y="55" font-size="13" font-weight="700" text-anchor="middle" fill="#1E4D7B">Label C</text>
+                        <text x="330" y="72" font-size="11" text-anchor="middle" fill="#4A7299">Blue node</text>
+                        <rect x="30" y="110" width="110" height="60" rx="8" fill="#DCEEE0" stroke="#7FB892" stroke-width="1.5"/>
+                        <text x="85" y="135" font-size="13" font-weight="700" text-anchor="middle" fill="#2D6A4F">Label D</text>
+                        <text x="85" y="152" font-size="11" text-anchor="middle" fill="#5A8A6E">Mint bottom row</text>
+                        <rect x="160" y="110" width="110" height="60" rx="8" fill="#F8DCC8" stroke="#D89B7A" stroke-width="1.5"/>
+                        <text x="215" y="135" font-size="13" font-weight="700" text-anchor="middle" fill="#8B4513">Label E</text>
+                        <text x="215" y="152" font-size="11" text-anchor="middle" fill="#A66647">Coral node</text>
+                        <path d="M 140 90 L 160 90" stroke="#D89B7A" stroke-width="2" marker-end="url(#arrow-color)" fill="none"/>
+                    </svg>
+                </div>
+                <div class="css-vars">
+                    <div class="css-var-row"><span class="var-name">--bg:</span> <span class="var-value">#F5F2ED</span></div>
+                    <div class="css-var-row"><span class="var-name">--node:</span> <span class="var-value">#E8E4F3</span></div>
+                    <div class="css-var-row"><span class="var-name">--node-alt:</span> <span class="var-value">#DCEEE0</span></div>
+                    <div class="css-var-row"><span class="var-name">--node-s:</span> <span class="var-value">#A89BC9</span></div>
+                    <div class="css-var-row"><span class="var-name">--node-s-alt:</span> <span class="var-value">#7FB892</span></div>
+                    <div class="css-var-row"><span class="var-name">--txt:</span> <span class="var-value">#4A3F7A</span></div>
+                    <div class="css-var-row"><span class="var-name">--txt-m:</span> <span class="var-value">#7A6FA0</span></div>
+                    <div class="css-var-row"><span class="var-name">--accent:</span> <span class="var-value">#D89B7A</span></div>
+                    <div class="css-var-row"><span class="var-name">--group-bg:</span> <span class="var-value">#FAF8F4</span></div>
+                    <div class="css-var-row"><span class="var-name">--group-border:</span> <span class="var-value">#C9C2B5</span></div>
+                </div>
+            </div>
+
+            <!-- Gold Theme -->
+            <div class="theme-card">
+                <div class="theme-header">
+                    <div class="theme-name">Gold</div>
+                    <div class="theme-description">Warm, luxurious gold and amber palette. Best for premium and elegant designs.</div>
+                </div>
+                <div class="theme-preview">
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #000000;"></div>
+                            <div class="color-label">Background</div>
+                            <div class="color-value">#000000</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #fef3c7;"></div>
+                            <div class="color-label">Text</div>
+                            <div class="color-value">#fef3c7</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #fef3c7;"></div>
+                            <div class="color-label">Node Fill</div>
+                            <div class="color-value">#fef3c7</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #d97706;"></div>
+                            <div class="color-label">Accent</div>
+                            <div class="color-value">#d97706</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #daa520;"></div>
+                            <div class="color-label">Node Stroke</div>
+                            <div class="color-value">#daa520</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="color-swatch">
+                            <div class="color-dot" style="background: #fef9e7;"></div>
+                            <div class="color-label">Node Fill Alt</div>
+                            <div class="color-value">#fef9e7</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="theme-preview-svg" style="background: #000000;">
+                    <svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <marker id="arrow-gold" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#d97706" />
+                            </marker>
+                        </defs>
+                        <rect x="20" y="20" width="120" height="60" rx="6" fill="#fef3c7" stroke="#daa520" stroke-width="1.5"/>
+                        <text x="80" y="50" font-size="13" font-weight="700" text-anchor="middle" fill="#5c4620">Service A</text>
+                        <path d="M 140 50 L 180 50" stroke="#d97706" stroke-width="2" marker-end="url(#arrow-gold)"/>
+                        <rect x="180" y="20" width="120" height="60" rx="6" fill="#fef9e7" stroke="#daa520" stroke-width="1.5"/>
+                        <text x="240" y="50" font-size="13" font-weight="700" text-anchor="middle" fill="#5c4620">Service B</text>
+                        <rect x="340" y="20" width="40" height="60" rx="6" fill="#fef3c7" stroke="#daa520" stroke-width="1.5"/>
+                        <text x="360" y="55" font-size="12" font-weight="700" text-anchor="middle" fill="#d97706">✓</text>
+                    </svg>
+                </div>
+                <div class="css-vars">
+                    <div class="css-var-row"><span class="var-name">--bg:</span> <span class="var-value">#000000</span></div>
+                    <div class="css-var-row"><span class="var-name">--node:</span> <span class="var-value">#fef3c7</span></div>
+                    <div class="css-var-row"><span class="var-name">--node-alt:</span> <span class="var-value">#fef9e7</span></div>
+                    <div class="css-var-row"><span class="var-name">--node-s:</span> <span class="var-value">#daa520</span></div>
+                    <div class="css-var-row"><span class="var-name">--txt:</span> <span class="var-value">#5c4620</span></div>
+                    <div class="css-var-row"><span class="var-name">--txt-m:</span> <span class="var-value">#8b6914</span></div>
+                    <div class="css-var-row"><span class="var-name">--accent:</span> <span class="var-value">#d97706</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Theme Selection Guide -->
+        <div style="background: white; border-radius: 8px; padding: 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <h2 style="font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 16px;">How to Choose a Theme</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <div>
+                    <h3 style="font-size: 14px; font-weight: 600; color: #111827; margin-bottom: 8px;">Corporate</h3>
+                    <ul style="font-size: 13px; color: #6b7280; line-height: 1.6; margin-left: 20px;">
+                        <li>Business presentations</li>
+                        <li>Enterprise documentation</li>
+                        <li>Professional reports</li>
+                        <li>Client deliverables</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="font-size: 14px; font-weight: 600; color: #111827; margin-bottom: 8px;">Clean/Minimal</h3>
+                    <ul style="font-size: 13px; color: #6b7280; line-height: 1.6; margin-left: 20px;">
+                        <li>Educational materials</li>
+                        <li>Documentation sites</li>
+                        <li>Minimal aesthetics</li>
+                        <li>Light backgrounds</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="font-size: 14px; font-weight: 600; color: #111827; margin-bottom: 8px;">Blueprint</h3>
+                    <ul style="font-size: 13px; color: #6b7280; line-height: 1.6; margin-left: 20px;">
+                        <li>Developer presentations</li>
+                        <li>Tech blogs & articles</li>
+                        <li>Dark mode preference</li>
+                        <li>Modern aesthetics</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="font-size: 14px; font-weight: 600; color: #111827; margin-bottom: 8px;">Colorful</h3>
+                    <ul style="font-size: 13px; color: #6b7280; line-height: 1.6; margin-left: 20px;">
+                        <li>Creative projects</li>
+                        <li>Community materials</li>
+                        <li>Engaging presentations</li>
+                        <li>Social content</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="font-size: 14px; font-weight: 600; color: #111827; margin-bottom: 8px;">Gold/Amber</h3>
+                    <ul style="font-size: 13px; color: #6b7280; line-height: 1.6; margin-left: 20px;">
+                        <li>Premium designs</li>
+                        <li>Luxury branding</li>
+                        <li>Elegant materials</li>
+                        <li>High-end documentation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+</body>
+</html>
