@@ -1,4 +1,4 @@
-# tech-diagrams
+Technical Diagrams
 
 A skill for generating polished, customizable tech diagrams from plain-English prompts.
 
@@ -31,6 +31,12 @@ A skill for generating polished, customizable tech diagrams from plain-English p
 | **Colorful** | Vibrant purple/green palette |
 | **Gold/Amber** | Dark background with gold accents |
 
+## Node Styles
+
+Choose between:
+- **Plain boxes** — Clean rectangular nodes with text labels (fast, editable)
+- **Icon nodes** — Visual nodes with hand-drawn SVG icons (database, cloud, gear, etc.)
+
 ## Installation
 
 To use this skill with Claude:
@@ -41,11 +47,6 @@ To use this skill with Claude:
 4. Start asking Claude to generate diagrams with /tech-diagram
 
 ## Usage Examples
-
-### Basic Architecture Diagram
-```
-Create a microservices architecture diagram for a RAG chatbot system with User Interface, API Gateway, Retrieval Service, LLM Service, and Vector Database.
-```
 
 ### Complete Template Example
 Here's a full example prompt that covers all key aspects for maximum detail:
@@ -61,6 +62,17 @@ This prompt specifies:
 - **Number of lanes/stages:** 4 swim lanes
 - **Node style:** Icon nodes with specific icons
 
+### AWS Chatbot RAG Architecture
+See [aws-chatbot-rag-architecture.html](aws-chatbot-rag-architecture.html) for a complete interactive example of an AWS-based RAG chatbot architecture diagram with theme switching and SVG download.
+
+![AWS Chatbot RAG Architecture](aws-chatbot-rag-architecture.png)
+
+
+### Basic Architecture Diagram
+```
+Create a microservices architecture diagram for a RAG chatbot system with User Interface, API Gateway, Retrieval Service, LLM Service, and Vector Database.
+```
+
 ### Flowchart with Swimlanes
 ```
 Show me a swimlane diagram for our order fulfillment process involving Customer, Warehouse, and Shipping teams.
@@ -70,18 +82,6 @@ Show me a swimlane diagram for our order fulfillment process involving Customer,
 ```
 Generate a cloud network topology showing our AWS VPC with public and private subnets, NAT gateway, and internet gateway.
 ```
-
-### AWS Chatbot RAG Architecture
-See [aws-chatbot-rag-architecture.html](aws-chatbot-rag-architecture.html) for a complete interactive example of an AWS-based RAG chatbot architecture diagram with theme switching and SVG download.
-
-![AWS Chatbot RAG Architecture](aws-chatbot-rag-architecture.png)
-
-
-## Node Styles
-
-Choose between:
-- **Plain boxes** — Clean rectangular nodes with text labels (fast, editable)
-- **Icon nodes** — Visual nodes with hand-drawn SVG icons (database, cloud, gear, etc.)
 
 ## Development
 
