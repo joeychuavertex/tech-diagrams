@@ -1,4 +1,4 @@
-Technical Diagrams
+## Technical Diagrams
 
 A skill for generating polished, customizable tech diagrams from plain-English prompts.
 
