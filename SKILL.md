@@ -27,6 +27,8 @@ Before generating anything, assess whether you have enough information. Ask abou
 
 **Do not ask about things you can reasonably infer.** If the user says "show me a microservices diagram for an e-commerce app", you can infer components like API Gateway, Order Service, etc. Ask only when genuinely stuck.
 
+**Provider style is auto-detected — don't ask about theme when a provider is named.** If the prompt clearly references AWS, NVIDIA, GCP, or Azure services (e.g. "RAG chatbot on AWS", "NeMo data flywheel", "Vertex AI pipeline", "AKS deployment"), skip the theme question and apply the matching provider's house style — see **Step 2b**. Only confirm when the prompt mixes providers (e.g. "ingest from S3 into Vertex AI") or when the user explicitly asks for a vendor-neutral look.
+
 ### Step 1b — Node Style
 
 Always ask the user whether they want **plain boxes** or **icon nodes** unless they have already specified:
@@ -49,6 +51,54 @@ Choose the layout that best matches the user's description (or the one they requ
 - **Data Flow Diagram** — data movement and transformation
 
 See [references/layouts.html](references/layouts.html) for detailed SVG coordinate templates for each layout.
+
+### Step 2b — Provider-Specific Visual Style
+
+When the prompt names a cloud or platform provider, match that provider's reference-architecture house style instead of a generic theme. The goal is that the diagram looks like it came from the provider's own architecture catalog:
+
+| Provider | Canonical reference catalog |
+|---|---|
+| AWS | [aws.amazon.com/architecture/reference-architecture-diagrams](https://aws.amazon.com/architecture/reference-architecture-diagrams/) |
+| NVIDIA | [build.nvidia.com/blueprints](https://build.nvidia.com/blueprints) |
+| GCP | [docs.cloud.google.com/architecture/blueprints/security-foundations](https://docs.cloud.google.com/architecture/blueprints/security-foundations) (and the broader [cloud.google.com/architecture](https://cloud.google.com/architecture) center) |
+| Azure | [learn.microsoft.com/en-us/azure/architecture/browse](https://learn.microsoft.com/en-us/azure/architecture/browse/) |
+
+**Auto-detection signals (use the first match):**
+
+| Provider | Trigger words / services |
+|---|---|
+| **AWS** | AWS, S3, Lambda, EC2, VPC, IAM, CloudFront, RDS, DynamoDB, Bedrock, SageMaker, Transit Gateway, Direct Connect, EventBridge, SQS, SNS, Cognito, API Gateway, ECS/EKS/Fargate, Aurora, Redshift, Kinesis, Step Functions |
+| **NVIDIA** | NVIDIA, NeMo, NIM, Triton, RAPIDS, Omniverse, BioNeMo, NVIDIA AI Enterprise, NVIDIA Blueprint, DGX, NeMo Microservices, NeMo Guardrails |
+| **GCP** | GCP, Google Cloud, GCS, Cloud Run, BigQuery, Vertex AI, GKE, Cloud SQL, Pub/Sub, Cloud Functions, Spanner, Firestore, Dataflow, Dataproc, Cloud Build, Cloud Armor |
+| **Azure** | Azure, AKS, Cosmos DB, Azure OpenAI, Azure Functions, Service Bus, Entra ID, App Service, Synapse, Event Grid, Logic Apps, Blob Storage, Front Door, API Management |
+
+If the prompt is multi-provider, ask which provider's style to use, or fall back to the generic Theme System (Step 3) if the user wants vendor-neutral.
+
+**Provider style files:**
+
+| Provider | Reference | Background | Group conventions | Icon style |
+|---|---|---|---|---|
+| AWS | [references/styles/aws.html](references/styles/aws.html) | white (#fff) | thin black `AWS Region` outer; green-bordered VPCs; dashed teal Availability Zones; orange-dashed account/ASG | square service badges colored by category — purple networking, orange compute, red security, blue/purple database, green storage, teal ML |
+| NVIDIA | [references/styles/nvidia.html](references/styles/nvidia.html) | black (#000) | thin white-bordered sections, white uppercase titles centered or top-left, no fill | green isometric service cubes (#76B900) + accent purple/orange/yellow for adapters/datastore/orchestrator; white arrows with white labels |
+| GCP | [references/styles/gcp.html](references/styles/gcp.html) | white (#fff) | solid gray-bordered project (with Google Cloud chip top-left); dashed gray region/zone; light-blue VPC | 4-color Material badges using #4285F4 / #EA4335 / #FBBC04 / #34A853, white glyph |
+| Azure | [references/styles/azure.html](references/styles/azure.html) | white (#fff) | solid Azure-blue (#0078D4) subscription; dashed blue resource group; solid blue VNet | Fluent multicolor geometric icons; Azure-blue accents, gray (#605E5C) connectors |
+
+**What carries over from Step 2 / Step 4 regardless of provider:**
+
+- Layout selection logic (cloud architecture, sequence, swimlane, etc.)
+- Multi-flow arrow conventions when used (numbered primary, lettered secondary, dashed async)
+- Step-marker circles/squares at segment midpoints
+- Cross-cutting governance/observability rail at the bottom for full architectures
+- Embedded SVG legend so the diagram survives download
+
+**What the provider style overrides:**
+
+- Page background, container fills/borders, fonts
+- Service icon symbol set and color palette
+- Step-marker color (AWS uses orange-amber square; NVIDIA uses green circle; GCP uses blue circle; Azure uses Azure-blue circle)
+- The HTML shell's theme switcher is replaced with a non-interactive "Provider style: AWS" badge — do not offer Corporate/Blueprint/Gold theme switching when a provider style is in effect.
+
+If no provider is detected, use the generic Theme System (Step 3).
 
 ### Step 3 — Theme System
 
@@ -119,5 +169,9 @@ After delivery, invite the user to refine:
 ## Reference Files
 
 - [layouts.html](references/layouts.html) — Visual templates for each layout type with coordinate systems
-- [themes.html](references/themes.html) — Live theme previews and CSS variable mappings
+- [themes.html](references/themes.html) — Live theme previews and CSS variable mappings (used when no provider style applies)
 - [html-template.html](references/html-template.html) — Interactive HTML shell with theme switcher and download button
+- [styles/aws.html](references/styles/aws.html) — AWS reference-architecture style (palette, container conventions, icon symbols, worked example)
+- [styles/nvidia.html](references/styles/nvidia.html) — NVIDIA blueprints style (black background, green service cubes)
+- [styles/gcp.html](references/styles/gcp.html) — Google Cloud architecture style (4-color Material badges)
+- [styles/azure.html](references/styles/azure.html) — Microsoft Azure architecture style (Fluent multicolor icons, Azure-blue accents)

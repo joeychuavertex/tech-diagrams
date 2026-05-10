@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Google Cloud architecture style</title>
+<style>
+  :root {
+    /* Page */
+    --bg: #ffffff;
+    --text: #202124;
+    --muted: #5F6368;
+    --font: "Google Sans", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    /* Google brand 4-color palette */
+    --g-blue:   #4285F4;
+    --g-red:    #EA4335;
+    --g-yellow: #FBBC04;
+    --g-green:  #34A853;
+
+    /* GCP group containers */
+    --project-stroke: #DADCE0;        /* light gray solid */
+    --project-bg: #ffffff;
+    --region-stroke: #80868B;         /* darker gray dashed */
+    --zone-stroke: #BDC1C6;           /* lighter gray dashed */
+    --vpc-stroke: #4285F4;            /* Google blue solid */
+
+    /* GCP service category colors (Material badge fill) */
+    --c-compute:        #4285F4;  /* Compute Engine, GKE, Cloud Run — blue */
+    --c-storage:        #FBBC04;  /* GCS, Filestore — yellow */
+    --c-database:       #4285F4;  /* Cloud SQL, Spanner, Firestore — blue */
+    --c-network:        #34A853;  /* VPC, Cloud CDN, Cloud Armor — green */
+    --c-security:       #EA4335;  /* IAM, Secret Manager — red */
+    --c-analytics:      #4285F4;  /* BigQuery, Dataflow — blue */
+    --c-integration:    #FBBC04;  /* Pub/Sub, Eventarc — yellow */
+    --c-management:     #34A853;  /* Cloud Logging, Monitoring — green */
+    --c-ml:             #4285F4;  /* Vertex AI — blue (white glyph) */
+    --c-end-user:       #5F6368;
+
+    /* Connectors */
+    --line: #5F6368;
+    --line-async: #BDC1C6;
+    --step-marker: #4285F4;        /* Blue circle with white text */
+    --step-marker-text: #ffffff;
+  }
+
+  body { background: var(--bg); color: var(--text); font-family: var(--font); margin: 0; padding: 24px; }
+  h1, h2 { font-weight: 700; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  h2 { font-size: 13px; margin: 28px 0 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  p.note { color: var(--muted); font-size: 13px; max-width: 880px; }
+  code { background: #F1F3F4; padding: 1px 5px; border-radius: 3px; }
+  .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; max-width: 880px; margin: 8px 0 16px; }
+  .swatch { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+  .swatch i { width: 18px; height: 18px; border-radius: 3px; display: inline-block; }
+  svg { display: block; max-width: 100%; height: auto; }
+</style>
+</head>
+<body>
+
+<h1>Google Cloud architecture style</h1>
+<p class="note">
+  Match the look of <a href="https://docs.cloud.google.com/architecture/blueprints/security-foundations" target="_blank" rel="noopener"><code>docs.cloud.google.com/architecture/blueprints/security-foundations</code></a>
+  and the broader <a href="https://cloud.google.com/architecture" target="_blank" rel="noopener"><code>cloud.google.com/architecture</code></a> center.
+  White page, light-gray solid project outline, dashed gray for regions/zones, solid Google-blue for VPC.
+  Service icons are filled rounded badges using the Google 4-color palette (blue / red / yellow / green)
+  with a single white glyph. Connectors are gray <code>#5F6368</code> with simple arrowheads; step
+  markers are blue circles with white numbers.
+</p>
+
+<div class="swatches">
+  <div class="swatch"><i style="background:var(--g-blue)"></i> Google Blue · #4285F4</div>
+  <div class="swatch"><i style="background:var(--g-red)"></i> Google Red · #EA4335</div>
+  <div class="swatch"><i style="background:var(--g-yellow)"></i> Google Yellow · #FBBC04</div>
+  <div class="swatch"><i style="background:var(--g-green)"></i> Google Green · #34A853</div>
+  <div class="swatch"><i style="background:var(--project-stroke)"></i> Project border · #DADCE0</div>
+  <div class="swatch"><i style="background:var(--region-stroke)"></i> Region (dashed) · #80868B</div>
+  <div class="swatch"><i style="background:var(--vpc-stroke)"></i> VPC border · #4285F4</div>
+  <div class="swatch"><i style="background:var(--line)"></i> Connector · #5F6368</div>
+</div>
+
+<h2>Worked example — Vertex AI document Q&amp;A</h2>
+
+<svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="GCP Vertex AI document Q&A reference architecture">
+  <defs>
+    <symbol id="ico-gcp-network" viewBox="0 0 56 56">
+      <rect width="56" height="56" rx="8" fill="var(--c-network)"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="28" cy="28" r="6"/><circle cx="14" cy="14" r="3"/><circle cx="42" cy="14" r="3"/>
+        <circle cx="14" cy="42" r="3"/><circle cx="42" cy="42" r="3"/>
+        <path d="M16 16 L24 24 M40 16 L32 24 M16 40 L24 32 M40 40 L32 32"/>
+      </g>
+    </symbol>
+    <symbol id="ico-gcp-compute" viewBox="0 0 56 56">
+      <rect width="56" height="56" rx="8" fill="var(--c-compute)"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">
+        <path d="M14 18 L28 12 L42 18 V38 L28 44 L14 38 Z"/>
+        <path d="M14 18 L28 24 L42 18"/>
+        <path d="M28 24 V44"/>
+      </g>
+    </symbol>
+    <symbol id="ico-gcp-storage" viewBox="0 0 56 56">
+      <rect width="56" height="56" rx="8" fill="var(--c-storage)"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">
+        <path d="M12 18 h32 v22 h-32 z"/>
+        <path d="M16 22 h24 M16 26 h24 M16 30 h24 M16 34 h12"/>
+      </g>
+    </symbol>
+    <symbol id="ico-gcp-database" viewBox="0 0 56 56">
+      <rect width="56" height="56" rx="8" fill="var(--c-database)"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">
+        <ellipse cx="28" cy="14" rx="14" ry="5"/>
+        <path d="M14 14v28c0 2.8 6.3 5 14 5s14-2.2 14-5V14"/>
+        <path d="M14 24c0 2.8 6.3 5 14 5s14-2.2 14-5"/>
+        <path d="M14 34c0 2.8 6.3 5 14 5s14-2.2 14-5"/>
+      </g>
+    </symbol>
+    <symbol id="ico-gcp-security" viewBox="0 0 56 56">
+      <rect width="56" height="56" rx="8" fill="var(--c-security)"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">
+        <path d="M28 10 L42 16 V28 C42 36 36 42 28 46 C20 42 14 36 14 28 V16 Z"/>
+        <path d="M22 28 l5 5 l9 -11"/>
+      </g>
+    </symbol>
+    <symbol id="ico-gcp-ml" viewBox="0 0 56 56">
+      <rect width="56" height="56" rx="8" fill="var(--c-ml)"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">
+        <circle cx="28" cy="28" r="14"/>
+        <circle cx="28" cy="28" r="3" fill="#fff" stroke="none"/>
+        <path d="M28 14 V20 M28 36 V42 M14 28 H20 M36 28 H42"/>
+      </g>
+    </symbol>
+    <symbol id="ico-gcp-integration" viewBox="0 0 56 56">
+      <rect width="56" height="56" rx="8" fill="var(--c-integration)"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">
+        <path d="M14 28 h28 M28 14 v28"/>
+        <circle cx="14" cy="28" r="3"/><circle cx="42" cy="28" r="3"/>
+        <circle cx="28" cy="14" r="3"/><circle cx="28" cy="42" r="3"/>
+      </g>
+    </symbol>
+    <symbol id="ico-gcp-end-user" viewBox="0 0 56 56">
+      <rect width="56" height="56" rx="8" fill="var(--c-end-user)"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">
+        <circle cx="28" cy="20" r="6"/>
+        <path d="M14 44 c0 -8 6 -12 14 -12 s14 4 14 12"/>
+      </g>
+    </symbol>
+
+    <!-- Google Cloud chip (4-color stripe) -->
+    <symbol id="gcp-chip" viewBox="0 0 100 18">
+      <rect x="0" y="0" width="100" height="18" rx="2" fill="#fff" stroke="var(--project-stroke)"/>
+      <rect x="6" y="6" width="3" height="6" fill="var(--g-blue)"/>
+      <rect x="11" y="6" width="3" height="6" fill="var(--g-red)"/>
+      <rect x="16" y="6" width="3" height="6" fill="var(--g-yellow)"/>
+      <rect x="21" y="6" width="3" height="6" fill="var(--g-green)"/>
+      <text x="30" y="13" font-family="var(--font)" font-size="10" font-weight="700" fill="var(--text)">Google Cloud</text>
+    </symbol>
+
+    <marker id="gcp-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="var(--line)"/>
+    </marker>
+    <marker id="gcp-arrow-async" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="var(--line-async)"/>
+    </marker>
+  </defs>
+
+  <!-- Project container -->
+  <rect x="40" y="40" width="900" height="600" rx="6" fill="var(--project-bg)" stroke="var(--project-stroke)" stroke-width="1.5"/>
+  <use href="#gcp-chip" x="60" y="54" width="100" height="18"/>
+  <text x="60" y="92" font-family="var(--font)" font-size="11" fill="var(--muted)">Project: docs-qa-prod</text>
+
+  <!-- Region (dashed) -->
+  <rect x="80" y="110" width="820" height="490" rx="6" fill="none" stroke="var(--region-stroke)" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="100" y="130" font-family="var(--font)" font-size="11" font-weight="700" fill="var(--region-stroke)" style="text-transform:uppercase; letter-spacing:0.06em">Region · us-central1</text>
+
+  <!-- VPC (Google-blue solid) -->
+  <rect x="110" y="160" width="760" height="280" rx="6" fill="none" stroke="var(--vpc-stroke)" stroke-width="1.5"/>
+  <text x="130" y="180" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--vpc-stroke)">VPC · 10.20.0.0/16</text>
+
+  <!-- Edge: Cloud Armor / LB -->
+  <g transform="translate(150,210)">
+    <use href="#ico-gcp-network" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">Cloud Armor</text>
+    <text x="28" y="94" text-anchor="middle" font-family="var(--font)" font-size="10.5" fill="var(--muted)">+ HTTPS LB</text>
+  </g>
+  <!-- Compute: Cloud Run -->
+  <g transform="translate(310,210)">
+    <use href="#ico-gcp-compute" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">Cloud Run</text>
+    <text x="28" y="94" text-anchor="middle" font-family="var(--font)" font-size="10.5" fill="var(--muted)">Q&amp;A service</text>
+  </g>
+  <!-- ML: Vertex AI -->
+  <g transform="translate(470,210)">
+    <use href="#ico-gcp-ml" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">Vertex AI</text>
+    <text x="28" y="94" text-anchor="middle" font-family="var(--font)" font-size="10.5" fill="var(--muted)">Gemini 1.5</text>
+  </g>
+  <!-- DB: Vector Search -->
+  <g transform="translate(630,210)">
+    <use href="#ico-gcp-database" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">Vector Search</text>
+    <text x="28" y="94" text-anchor="middle" font-family="var(--font)" font-size="10.5" fill="var(--muted)">Vertex index</text>
+  </g>
+  <!-- Pub/Sub -->
+  <g transform="translate(310,360)">
+    <use href="#ico-gcp-integration" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">Pub/Sub</text>
+    <text x="28" y="94" text-anchor="middle" font-family="var(--font)" font-size="10.5" fill="var(--muted)">Doc events</text>
+  </g>
+  <!-- IAM (security) -->
+  <g transform="translate(470,360)">
+    <use href="#ico-gcp-security" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">IAM</text>
+    <text x="28" y="94" text-anchor="middle" font-family="var(--font)" font-size="10.5" fill="var(--muted)">Service accts</text>
+  </g>
+
+  <!-- Storage zone (outside VPC, within region) -->
+  <g transform="translate(630,470)">
+    <use href="#ico-gcp-storage" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">GCS</text>
+    <text x="28" y="94" text-anchor="middle" font-family="var(--font)" font-size="10.5" fill="var(--muted)">Source PDFs</text>
+  </g>
+  <g transform="translate(310,470)">
+    <use href="#ico-gcp-compute" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">Cloud Run Job</text>
+    <text x="28" y="94" text-anchor="middle" font-family="var(--font)" font-size="10.5" fill="var(--muted)">Embed worker</text>
+  </g>
+
+  <!-- End user (outside project) -->
+  <g transform="translate(990,260)">
+    <use href="#ico-gcp-end-user" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">End user</text>
+  </g>
+
+  <!-- Connectors (request path, solid) -->
+  <g stroke="var(--line)" stroke-width="1.5" fill="none" marker-end="url(#gcp-arrow)">
+    <path d="M990 288 L210 238"/>
+    <path d="M210 238 L310 238"/>
+    <path d="M370 238 L470 238"/>
+    <path d="M368 252 L628 252"/>
+  </g>
+  <!-- Ingestion path (async, lighter dashed) -->
+  <g stroke="var(--line-async)" stroke-width="1.5" fill="none" stroke-dasharray="5,4" marker-end="url(#gcp-arrow-async)">
+    <path d="M658 470 L370 498"/>
+    <path d="M340 470 L340 414"/>
+    <path d="M370 498 L660 270"/>
+  </g>
+
+  <!-- Step markers (blue circle, white text) -->
+  <g font-family="var(--font)" font-size="11" font-weight="700" fill="var(--step-marker-text)" text-anchor="middle">
+    <g><circle cx="600" cy="232" r="9" fill="var(--step-marker)"/><text x="600" y="236">1</text></g>
+    <g><circle cx="260" cy="232" r="9" fill="var(--step-marker)"/><text x="260" y="236">2</text></g>
+    <g><circle cx="420" cy="232" r="9" fill="var(--step-marker)"/><text x="420" y="236">3</text></g>
+    <g><circle cx="500" cy="246" r="9" fill="var(--step-marker)"/><text x="500" y="250">4</text></g>
+    <g><circle cx="500" cy="492" r="9" fill="var(--step-marker)"/><text x="500" y="496">A</text></g>
+    <g><circle cx="500" cy="380" r="9" fill="var(--step-marker)"/><text x="500" y="384">B</text></g>
+  </g>
+
+  <!-- Inline legend -->
+  <g transform="translate(80,632)">
+    <rect x="0" y="0" width="500" height="40" rx="4" fill="#F8F9FA" stroke="var(--project-stroke)"/>
+    <line x1="14" y1="14" x2="50" y2="14" stroke="var(--line)" stroke-width="1.5" marker-end="url(#gcp-arrow)"/>
+    <text x="58" y="18" font-family="var(--font)" font-size="11" fill="var(--text)">Request path (1, 2, 3 …)</text>
+    <line x1="14" y1="30" x2="50" y2="30" stroke="var(--line-async)" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#gcp-arrow-async)"/>
+    <text x="58" y="34" font-family="var(--font)" font-size="11" fill="var(--text)">Async ingestion (A, B, C …)</text>
+  </g>
+</svg>
+
+<h2>Container conventions</h2>
+<p class="note">
+  Project — solid <code>#DADCE0</code> 1.5px, "Google Cloud" chip top-left (4-color stripe + label).<br/>
+  Region — dashed <code>#80868B</code>; Zone — dashed <code>#BDC1C6</code>.<br/>
+  VPC — solid Google-blue <code>#4285F4</code> 1.5px.<br/>
+  Subnet — dashed Google-blue (lighter, 1px).
+</p>
+
+<h2>Icon conventions</h2>
+<p class="note">
+  Rounded square badge (rx=8) filled with one of the four Google brand colors based on category, with a
+  white stroked glyph inside. Title 12px bold below the icon, subtitle 10.5px muted gray. Use the badge
+  color to encode the category and the label to encode the service (e.g. <code>ico-gcp-database</code> +
+  label "Spanner" or "Cloud SQL" or "Firestore").
+</p>
+
+<h2>Connector conventions</h2>
+<p class="note">
+  Solid <code>#5F6368</code> 1.5px lines for request paths; dashed lighter <code>#BDC1C6</code> for async
+  / ingestion paths. Step markers are 9px-radius blue circles with white bold numbers (request) or
+  letters (ingestion).
+</p>
+
+</body>
+</html>

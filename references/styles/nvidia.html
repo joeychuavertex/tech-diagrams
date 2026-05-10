@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>NVIDIA blueprints style</title>
+<style>
+  :root {
+    /* Page */
+    --bg: #000000;
+    --text: #ffffff;
+    --muted: #b8b8b8;
+    --font: "NVIDIA Sans", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    /* Sections */
+    --section-stroke: #ffffff;
+    --section-bg: transparent;
+
+    /* Service category colors. Default service icons are NVIDIA green cubes;
+       accent colors only for non-service primitives (orchestrators, datastores, adapters, users). */
+    --c-service:        #76B900;  /* NVIDIA green — default service cube */
+    --c-orchestrator:   #FFB800;  /* yellow — workflow orchestrator */
+    --c-datastore:      #FF6600;  /* orange — Elastic / data store */
+    --c-adapter:        #A855F7;  /* purple — LoRA adapter / transform */
+    --c-user:           #4A90E2;  /* blue — user / admin avatar */
+    --c-doc:            #ED7100;  /* orange — document / report */
+
+    /* Connectors */
+    --line: #ffffff;
+    --line-muted: #888888;
+  }
+
+  body { background: var(--bg); color: var(--text); font-family: var(--font); margin: 0; padding: 24px; }
+  h1, h2 { font-weight: 700; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  h2 { font-size: 13px; margin: 28px 0 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  p.note { color: var(--muted); font-size: 13px; max-width: 880px; }
+  code { background: #181818; padding: 1px 5px; border-radius: 3px; }
+  .swatches { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 700px; margin: 8px 0 16px; }
+  .swatch { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+  .swatch i { width: 18px; height: 18px; border-radius: 2px; display: inline-block; }
+  svg { display: block; max-width: 100%; height: auto; }
+</style>
+</head>
+<body>
+
+<h1>NVIDIA blueprints style</h1>
+<p class="note">
+  Match the look of <a href="https://build.nvidia.com/blueprints" target="_blank" rel="noopener"><code>build.nvidia.com/blueprints</code></a>. Pure-black canvas, white sans-serif text,
+  thin (1px) white-bordered sections with no fill and a centered or top-left uppercase title.
+  Services are rendered as green isometric cubes (<code>#76B900</code>); only non-service primitives
+  (orchestrator, data store, adapter, user) get accent colors. Arrows are 1.25px white with white labels
+  positioned <em>above</em> the midpoint.
+</p>
+
+<div class="swatches">
+  <div class="swatch"><i style="background:var(--c-service)"></i> Service cube · #76B900</div>
+  <div class="swatch"><i style="background:var(--c-orchestrator)"></i> Orchestrator · #FFB800</div>
+  <div class="swatch"><i style="background:var(--c-datastore)"></i> Datastore · #FF6600</div>
+  <div class="swatch"><i style="background:var(--c-adapter)"></i> Adapter · #A855F7</div>
+  <div class="swatch"><i style="background:var(--c-user)"></i> User / admin · #4A90E2</div>
+  <div class="swatch"><i style="background:var(--c-doc)"></i> Doc / report · #ED7100</div>
+</div>
+
+<h2>Worked example — NeMo data flywheel</h2>
+
+<svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="NVIDIA NeMo data flywheel reference architecture">
+  <defs>
+    <!-- Service cube: isometric green cube (NVIDIA brand). 64×64. -->
+    <symbol id="ico-nv-service" viewBox="0 0 64 64">
+      <g stroke="#0a1a00" stroke-width="0.75" stroke-linejoin="round">
+        <polygon points="32,6 58,18 58,46 32,58 6,46 6,18" fill="#76B900"/>
+        <polygon points="32,6 58,18 32,30 6,18" fill="#9FD83A"/>
+        <polygon points="32,30 58,18 58,46 32,58" fill="#5A9100"/>
+        <polygon points="32,30 6,18 6,46 32,58" fill="#76B900"/>
+      </g>
+    </symbol>
+    <!-- Orchestrator: yellow gear -->
+    <symbol id="ico-nv-orchestrator" viewBox="0 0 64 64">
+      <g fill="#FFB800" stroke="#3a2a00" stroke-width="0.75" stroke-linejoin="round">
+        <path d="M32 8 l4 6 h6 l3 5 -3 5 v6 l4 4 -2 6 -6 1 -3 5 -6 -2 -6 2 -3 -5 -6 -1 -2 -6 4 -4 v-6 l-3 -5 3 -5 h6 z"/>
+      </g>
+      <circle cx="32" cy="32" r="6" fill="#000"/>
+    </symbol>
+    <!-- Datastore: orange cylinder -->
+    <symbol id="ico-nv-datastore" viewBox="0 0 64 64">
+      <g fill="#FF6600" stroke="#3a1a00" stroke-width="0.75" stroke-linejoin="round">
+        <ellipse cx="32" cy="14" rx="20" ry="6"/>
+        <path d="M12 14 v36 c0 3.3 9 6 20 6 s20 -2.7 20 -6 V14"/>
+      </g>
+      <ellipse cx="32" cy="14" rx="20" ry="6" fill="#FF8533" stroke="#3a1a00" stroke-width="0.75"/>
+    </symbol>
+    <!-- Adapter: purple diamond / hexagon -->
+    <symbol id="ico-nv-adapter" viewBox="0 0 64 64">
+      <g fill="#A855F7" stroke="#1a0033" stroke-width="0.75" stroke-linejoin="round">
+        <polygon points="32,8 56,32 32,56 8,32"/>
+      </g>
+      <text x="32" y="38" text-anchor="middle" font-family="var(--font)" font-size="14" font-weight="700" fill="#fff">A</text>
+    </symbol>
+    <!-- User: blue circle with figure -->
+    <symbol id="ico-nv-user" viewBox="0 0 64 64">
+      <circle cx="32" cy="32" r="26" fill="#4A90E2" stroke="#0a1f3a" stroke-width="0.75"/>
+      <g fill="#fff">
+        <circle cx="32" cy="26" r="7"/>
+        <path d="M16 50 c0 -8 7 -14 16 -14 s16 6 16 14"/>
+      </g>
+    </symbol>
+    <!-- Document / report -->
+    <symbol id="ico-nv-doc" viewBox="0 0 64 64">
+      <g fill="#ED7100" stroke="#3a1a00" stroke-width="0.75" stroke-linejoin="round">
+        <path d="M14 8 h28 l10 10 v38 H14 z"/>
+        <path d="M42 8 v10 h10" fill="#FFB800"/>
+      </g>
+      <g stroke="#fff" stroke-width="2" stroke-linecap="round">
+        <line x1="22" y1="32" x2="44" y2="32"/>
+        <line x1="22" y1="40" x2="44" y2="40"/>
+        <line x1="22" y1="48" x2="36" y2="48"/>
+      </g>
+    </symbol>
+
+    <!-- Arrow markers (white) -->
+    <marker id="nv-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="var(--line)"/>
+    </marker>
+  </defs>
+
+  <!-- Outer canvas (already black via body) -->
+  <rect x="0" y="0" width="1280" height="720" fill="var(--bg)"/>
+
+  <!-- Section: Deployed App (left) -->
+  <rect x="40" y="120" width="220" height="500" rx="2" fill="none" stroke="var(--section-stroke)" stroke-width="1"/>
+  <text x="150" y="100" text-anchor="middle" font-family="var(--font)" font-size="13" font-weight="700" fill="var(--text)">Deployed App</text>
+
+  <!-- Section: Data Flywheel (middle, contains NeMo Microservices Platform inside) -->
+  <rect x="300" y="60" width="700" height="560" rx="2" fill="none" stroke="var(--section-stroke)" stroke-width="1"/>
+  <text x="650" y="48" text-anchor="middle" font-family="var(--font)" font-size="13" font-weight="700" fill="var(--text)">Data Flywheel</text>
+
+  <!-- Nested: NeMo Microservices Platform -->
+  <rect x="540" y="140" width="440" height="450" rx="2" fill="none" stroke="var(--section-stroke)" stroke-width="1"/>
+  <text x="760" y="130" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">NeMo Microservices Platform</text>
+
+  <!-- Sub-sections inside platform -->
+  <rect x="560" y="170" width="400" height="160" rx="2" fill="none" stroke="var(--section-stroke)" stroke-width="1"/>
+  <text x="760" y="190" text-anchor="middle" font-family="var(--font)" font-size="11" font-weight="700" fill="var(--text)">Zero-Shot &amp; In-Context-Learning Evaluation</text>
+
+  <rect x="560" y="360" width="400" height="200" rx="2" fill="none" stroke="var(--section-stroke)" stroke-width="1"/>
+  <text x="760" y="380" text-anchor="middle" font-family="var(--font)" font-size="11" font-weight="700" fill="var(--text)">Customization</text>
+
+  <!-- Section: Candidate Models (right) -->
+  <rect x="1040" y="120" width="200" height="500" rx="2" fill="none" stroke="var(--section-stroke)" stroke-width="1"/>
+  <text x="1140" y="100" text-anchor="middle" font-family="var(--font)" font-size="13" font-weight="700" fill="var(--text)">Candidate Models</text>
+
+  <!-- Deployed App nodes -->
+  <g transform="translate(80,200)">
+    <use href="#ico-nv-user" x="0" y="0" width="60" height="60"/>
+    <text x="30" y="80" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">App User</text>
+  </g>
+  <g transform="translate(170,200)">
+    <use href="#ico-nv-service" x="0" y="0" width="60" height="60"/>
+    <text x="30" y="80" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">AI Agent</text>
+  </g>
+  <g transform="translate(170,360)">
+    <use href="#ico-nv-service" x="0" y="0" width="60" height="60"/>
+    <text x="30" y="440" text-anchor="middle" font-family="var(--font)" font-size="11.5" fill="var(--muted)">llama3.3-70b</text>
+    <text x="30" y="80" text-anchor="middle" font-family="var(--font)" font-size="11" fill="var(--muted)" visibility="hidden">production</text>
+  </g>
+  <g transform="translate(80,500)">
+    <use href="#ico-nv-service" x="0" y="0" width="60" height="60"/>
+    <text x="30" y="80" text-anchor="middle" font-family="var(--font)" font-size="11.5" fill="var(--muted)">llama3.2-1b</text>
+  </g>
+
+  <!-- Data Flywheel nodes -->
+  <g transform="translate(380,180)">
+    <use href="#ico-nv-user" x="0" y="0" width="60" height="60"/>
+    <text x="30" y="80" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">Admin</text>
+  </g>
+  <g transform="translate(380,360)">
+    <use href="#ico-nv-datastore" x="0" y="0" width="60" height="60"/>
+    <text x="30" y="80" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">Elastic Search</text>
+  </g>
+  <g transform="translate(380,490)">
+    <use href="#ico-nv-orchestrator" x="0" y="0" width="60" height="60"/>
+    <text x="30" y="80" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">Flywheel</text>
+    <text x="30" y="84" visibility="hidden">orchestrator</text>
+    <text x="30" y="96" text-anchor="middle" font-family="var(--font)" font-size="11" fill="var(--muted)">Orchestrator</text>
+  </g>
+
+  <!-- Evaluation report -->
+  <g transform="translate(560,210)">
+    <use href="#ico-nv-doc" x="0" y="0" width="50" height="50"/>
+    <text x="25" y="68" text-anchor="middle" font-family="var(--font)" font-size="11.5" font-weight="700" fill="var(--text)">Evaluation</text>
+    <text x="25" y="82" text-anchor="middle" font-family="var(--font)" font-size="11.5" font-weight="700" fill="var(--text)">Reports</text>
+  </g>
+
+  <!-- Evaluator + Customizer -->
+  <g transform="translate(740,220)">
+    <use href="#ico-nv-service" x="0" y="0" width="60" height="60"/>
+    <text x="30" y="80" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">NeMo Evaluator</text>
+  </g>
+  <g transform="translate(640,420)">
+    <use href="#ico-nv-service" x="0" y="0" width="60" height="60"/>
+    <text x="30" y="80" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">NeMo Customizer</text>
+  </g>
+  <g transform="translate(820,420)">
+    <use href="#ico-nv-service" x="0" y="0" width="60" height="60"/>
+    <text x="30" y="80" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">NeMo Evaluator</text>
+  </g>
+
+  <!-- LoRA adapter -->
+  <g transform="translate(380,610)">
+    <use href="#ico-nv-adapter" x="0" y="0" width="50" height="50"/>
+    <text x="25" y="68" text-anchor="middle" font-family="var(--font)" font-size="11.5" font-weight="700" fill="var(--text)">LoRA Adapter</text>
+  </g>
+
+  <!-- Candidate models -->
+  <g font-family="var(--font)" font-size="11.5" fill="var(--muted)" text-anchor="middle">
+    <g transform="translate(1110,160)"><use href="#ico-nv-service" x="0" y="0" width="50" height="50"/><text x="25" y="68">llama3.1-8b</text></g>
+    <g transform="translate(1110,240)"><use href="#ico-nv-service" x="0" y="0" width="50" height="50"/><text x="25" y="68">phi4-14b</text></g>
+    <g transform="translate(1110,320)"><use href="#ico-nv-service" x="0" y="0" width="50" height="50"/><text x="25" y="68">llama-nemotron-49b</text></g>
+    <g transform="translate(1110,400)"><use href="#ico-nv-service" x="0" y="0" width="50" height="50"/><text x="25" y="68">llama3.2-1b</text></g>
+    <g transform="translate(1110,500)"><use href="#ico-nv-service" x="0" y="0" width="50" height="50"/><text x="25" y="68">LLM NIM</text></g>
+  </g>
+
+  <!-- Connectors -->
+  <g stroke="var(--line)" stroke-width="1.25" fill="none" marker-end="url(#nv-arrow)">
+    <!-- App User → AI Agent -->
+    <path d="M140 230 L170 230"/>
+    <!-- AI Agent → Elastic Search (Log Completions) -->
+    <path d="M230 230 Q 310 260 380 390"/>
+    <!-- Elastic Search → Orchestrator -->
+    <path d="M410 420 L410 490"/>
+    <!-- Orchestrator → Evaluator (top) -->
+    <path d="M440 510 Q 600 380 740 250"/>
+    <!-- Orchestrator → Customizer -->
+    <path d="M440 520 Q 540 470 640 450"/>
+    <!-- Customizer → Evaluator (right) -->
+    <path d="M700 450 L820 450"/>
+    <!-- Evaluator (top) → Reports -->
+    <path d="M770 220 L600 230"/>
+    <!-- Reports → Admin -->
+    <path d="M580 220 L440 210"/>
+    <!-- Candidate Models → Evaluator (top) -->
+    <path d="M1110 220 L800 240"/>
+    <!-- Candidate Models → Evaluator (right) -->
+    <path d="M1110 420 L880 440"/>
+    <!-- LoRA Adapter → llama3.2-1b (production updates) -->
+    <path d="M380 630 L140 530"/>
+  </g>
+
+  <!-- Labels (above midpoints) -->
+  <g font-family="var(--font)" font-size="11" fill="var(--text)" text-anchor="middle">
+    <text x="290" y="270">Log Completions</text>
+    <text x="140" y="425">Update Production Model</text>
+  </g>
+</svg>
+
+<h2>Container conventions</h2>
+<p class="note">
+  Outer canvas — solid black <code>#000</code> page background.<br/>
+  Sections — 1px white border, no fill, sharp corners (rx 0–2). White uppercase title can sit above the border (no pill cutout) or top-left inside.<br/>
+  Nested sections are allowed; keep stroke uniformly 1px and don't add fills.<br/>
+  Avoid color fills on group containers — color belongs on the icons, not the boxes.
+</p>
+
+<h2>Icon conventions</h2>
+<p class="note">
+  Default service node = isometric green cube (<code>ico-nv-service</code>) at 50–64px. The cube label
+  carries the service name (e.g. "NeMo Customizer", "NIM", "Triton"). Reserve accent colors for non-service
+  primitives: orchestrator (yellow gear), datastore (orange cylinder), adapter (purple diamond),
+  user/admin (blue circle), doc/report (orange page).
+</p>
+
+<h2>Connector conventions</h2>
+<p class="note">
+  Single arrow style — 1.25px white solid with a small white arrowhead. Labels sit <em>above</em> the
+  segment midpoint in white 11px regular weight. Avoid dashed/multicolor flows; the NVIDIA blueprint
+  aesthetic is monochromatic on top of colored icons. If you need a secondary path, use a thinner
+  <code>#888</code> stroke rather than a different color.
+</p>
+
+</body>
+</html>

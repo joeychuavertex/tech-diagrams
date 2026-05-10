@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Microsoft Azure architecture style</title>
+<style>
+  :root {
+    /* Page */
+    --bg: #ffffff;
+    --text: #201F1E;
+    --muted: #605E5C;
+    --font: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    /* Azure brand */
+    --azure-blue: #0078D4;
+    --azure-blue-dark: #005A9E;
+    --azure-blue-light: #DEECF9;
+
+    /* Group containers */
+    --subscription-stroke: #0078D4;     /* Azure blue solid */
+    --subscription-bg: #ffffff;
+    --rg-stroke: #0078D4;               /* Resource Group: Azure blue dashed */
+    --vnet-stroke: #005A9E;             /* VNet: darker Azure blue */
+    --subnet-stroke: #50E6FF;           /* Subnet: cyan */
+    --datacenter-stroke: #605E5C;
+
+    /* Azure service category colors (Fluent palette) */
+    --c-compute:        #0078D4;  /* Compute — Azure blue */
+    --c-containers:     #00A4EF;  /* AKS, Container Apps — bright blue */
+    --c-storage:        #1FA84F;  /* Storage Accounts, Blob — green */
+    --c-database:       #0078D4;  /* SQL DB, Cosmos DB — blue (with badge) */
+    --c-network:        #5C2D91;  /* Networking — purple */
+    --c-security:       #C50F1F;  /* Defender, Sentinel, Key Vault — red */
+    --c-analytics:      #773ADC;  /* Synapse, Data Factory — purple */
+    --c-integration:    #E81123;  /* Service Bus, Event Grid — red */
+    --c-ml:             #00A4EF;  /* Azure OpenAI, ML — bright blue */
+    --c-management:     #FFB900;  /* Monitor, Log Analytics — amber */
+    --c-end-user:       #605E5C;
+
+    /* Connectors */
+    --line: #605E5C;
+    --line-private: #0078D4;
+    --step-marker: #0078D4;
+    --step-marker-text: #ffffff;
+  }
+
+  body { background: var(--bg); color: var(--text); font-family: var(--font); margin: 0; padding: 24px; }
+  h1, h2 { font-weight: 700; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  h2 { font-size: 13px; margin: 28px 0 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  p.note { color: var(--muted); font-size: 13px; max-width: 880px; }
+  code { background: #F3F2F1; padding: 1px 5px; border-radius: 3px; }
+  .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; max-width: 880px; margin: 8px 0 16px; }
+  .swatch { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+  .swatch i { width: 18px; height: 18px; border-radius: 3px; display: inline-block; }
+  svg { display: block; max-width: 100%; height: auto; }
+</style>
+</head>
+<body>
+
+<h1>Microsoft Azure architecture style</h1>
+<p class="note">
+  Match the look of <a href="https://learn.microsoft.com/en-us/azure/architecture/browse/" target="_blank" rel="noopener"><code>learn.microsoft.com/en-us/azure/architecture/browse</code></a>.
+  White page, Segoe UI, Azure-blue solid borders for Subscriptions and VNets, dashed Azure-blue for
+  Resource Groups, and a Fluent multicolor service icon palette anchored on Azure blue
+  (<code>#0078D4</code>). Connectors are neutral gray <code>#605E5C</code>; private endpoints / VNet
+  integration use Azure-blue dashed.
+</p>
+
+<div class="swatches">
+  <div class="swatch"><i style="background:var(--azure-blue)"></i> Azure Blue · #0078D4</div>
+  <div class="swatch"><i style="background:var(--c-containers)"></i> Containers · #00A4EF</div>
+  <div class="swatch"><i style="background:var(--c-storage)"></i> Storage · #1FA84F</div>
+  <div class="swatch"><i style="background:var(--c-network)"></i> Network · #5C2D91</div>
+  <div class="swatch"><i style="background:var(--c-security)"></i> Security · #C50F1F</div>
+  <div class="swatch"><i style="background:var(--c-analytics)"></i> Analytics · #773ADC</div>
+  <div class="swatch"><i style="background:var(--c-integration)"></i> Integration · #E81123</div>
+  <div class="swatch"><i style="background:var(--c-management)"></i> Mgmt / Monitor · #FFB900</div>
+</div>
+
+<h2>Worked example — Azure OpenAI chat backend</h2>
+
+<svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Azure OpenAI chat backend reference architecture">
+  <defs>
+    <symbol id="ico-az-network" viewBox="0 0 56 56">
+      <rect width="56" height="56" rx="4" fill="var(--c-network)"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="28" cy="28" r="6"/><circle cx="14" cy="14" r="3"/><circle cx="42" cy="14" r="3"/>
+        <circle cx="14" cy="42" r="3"/><circle cx="42" cy="42" r="3"/>
+        <path d="M16 16 L24 24 M40 16 L32 24 M16 40 L24 32 M40 40 L32 32"/>
+      </g>
+    </symbol>
+    <symbol id="ico-az-compute" viewBox="0 0 56 56">
+      <rect width="56" height="56" rx="4" fill="var(--c-compute)"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">
+        <rect x="14" y="14" width="28" height="28" rx="2"/>
+        <path d="M22 10v4 M30 10v4 M22 42v4 M30 42v4 M10 22h4 M10 30h4 M42 22h4 M42 30h4"/>
+        <rect x="20" y="20" width="16" height="16" rx="1"/>
+      </g>
+    </symbol>
+    <symbol id="ico-az-containers" viewBox="0 0 56 56">
+      <rect width="56" height="56" rx="4" fill="var(--c-containers)"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">
+        <rect x="10" y="20" width="10" height="10"/>
+        <rect x="22" y="20" width="10" height="10"/>
+        <rect x="34" y="20" width="10" height="10"/>
+        <rect x="16" y="32" width="10" height="10"/>
+        <rect x="28" y="32" width="10" height="10"/>
+      </g>
+    </symbol>
+    <symbol id="ico-az-storage" viewBox="0 0 56 56">
+      <rect width="56" height="56" rx="4" fill="var(--c-storage)"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">
+        <ellipse cx="28" cy="16" rx="14" ry="4"/>
+        <path d="M14 16v24c0 2.2 6.3 4 14 4s14-1.8 14-4V16"/>
+        <path d="M14 28c0 2.2 6.3 4 14 4s14-1.8 14-4"/>
+      </g>
+    </symbol>
+    <symbol id="ico-az-database" viewBox="0 0 56 56">
+      <rect width="56" height="56" rx="4" fill="var(--c-database)"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">
+        <ellipse cx="28" cy="14" rx="14" ry="5"/>
+        <path d="M14 14v28c0 2.8 6.3 5 14 5s14-2.2 14-5V14"/>
+        <path d="M14 24c0 2.8 6.3 5 14 5s14-2.2 14-5"/>
+        <path d="M14 34c0 2.8 6.3 5 14 5s14-2.2 14-5"/>
+      </g>
+    </symbol>
+    <symbol id="ico-az-security" viewBox="0 0 56 56">
+      <rect width="56" height="56" rx="4" fill="var(--c-security)"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">
+        <path d="M28 10 L42 16 V28 C42 36 36 42 28 46 C20 42 14 36 14 28 V16 Z"/>
+        <path d="M22 28 l5 5 l9 -11"/>
+      </g>
+    </symbol>
+    <symbol id="ico-az-ml" viewBox="0 0 56 56">
+      <rect width="56" height="56" rx="4" fill="var(--c-ml)"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">
+        <circle cx="28" cy="28" r="14"/>
+        <circle cx="28" cy="28" r="3" fill="#fff" stroke="none"/>
+        <path d="M28 14 V20 M28 36 V42 M14 28 H20 M36 28 H42"/>
+      </g>
+    </symbol>
+    <symbol id="ico-az-integration" viewBox="0 0 56 56">
+      <rect width="56" height="56" rx="4" fill="var(--c-integration)"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">
+        <path d="M14 28 h28 M28 14 v28"/>
+        <circle cx="14" cy="28" r="3"/><circle cx="42" cy="28" r="3"/>
+        <circle cx="28" cy="14" r="3"/><circle cx="28" cy="42" r="3"/>
+      </g>
+    </symbol>
+    <symbol id="ico-az-management" viewBox="0 0 56 56">
+      <rect width="56" height="56" rx="4" fill="var(--c-management)"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">
+        <path d="M14 36 L22 26 L28 30 L36 18 L42 22"/>
+        <path d="M14 42 H42"/>
+      </g>
+    </symbol>
+    <symbol id="ico-az-end-user" viewBox="0 0 56 56">
+      <rect width="56" height="56" rx="4" fill="var(--c-end-user)"/>
+      <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round">
+        <circle cx="28" cy="20" r="6"/>
+        <path d="M14 44 c0 -8 6 -12 14 -12 s14 4 14 12"/>
+      </g>
+    </symbol>
+
+    <marker id="az-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="var(--line)"/>
+    </marker>
+    <marker id="az-arrow-private" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="var(--line-private)"/>
+    </marker>
+  </defs>
+
+  <!-- Subscription -->
+  <rect x="40" y="40" width="900" height="600" rx="2" fill="var(--subscription-bg)" stroke="var(--subscription-stroke)" stroke-width="1.5"/>
+  <rect x="60" y="54" width="120" height="20" rx="2" fill="var(--azure-blue-light)"/>
+  <text x="68" y="68" font-family="var(--font)" font-size="11" font-weight="700" fill="var(--azure-blue-dark)">Subscription</text>
+  <text x="60" y="92" font-family="var(--font)" font-size="11" fill="var(--muted)">prod-eastus</text>
+
+  <!-- Resource Group (dashed Azure blue) -->
+  <rect x="80" y="110" width="820" height="490" rx="2" fill="none" stroke="var(--rg-stroke)" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect x="100" y="124" width="180" height="20" rx="2" fill="var(--azure-blue-light)"/>
+  <text x="108" y="138" font-family="var(--font)" font-size="11" font-weight="700" fill="var(--azure-blue-dark)">Resource Group · rg-chat</text>
+
+  <!-- VNet -->
+  <rect x="120" y="170" width="740" height="280" rx="2" fill="none" stroke="var(--vnet-stroke)" stroke-width="1.5"/>
+  <text x="140" y="190" font-family="var(--font)" font-size="11" font-weight="700" fill="var(--vnet-stroke)">VNet · 10.30.0.0/16</text>
+
+  <!-- Front Door (network) -->
+  <g transform="translate(160,210)">
+    <use href="#ico-az-network" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">Front Door</text>
+    <text x="28" y="94" text-anchor="middle" font-family="var(--font)" font-size="10.5" fill="var(--muted)">+ WAF</text>
+  </g>
+  <!-- App Service -->
+  <g transform="translate(320,210)">
+    <use href="#ico-az-compute" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">App Service</text>
+    <text x="28" y="94" text-anchor="middle" font-family="var(--font)" font-size="10.5" fill="var(--muted)">Chat API</text>
+  </g>
+  <!-- Azure OpenAI -->
+  <g transform="translate(480,210)">
+    <use href="#ico-az-ml" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">Azure OpenAI</text>
+    <text x="28" y="94" text-anchor="middle" font-family="var(--font)" font-size="10.5" fill="var(--muted)">GPT-4o</text>
+  </g>
+  <!-- Cosmos DB -->
+  <g transform="translate(640,210)">
+    <use href="#ico-az-database" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">Cosmos DB</text>
+    <text x="28" y="94" text-anchor="middle" font-family="var(--font)" font-size="10.5" fill="var(--muted)">Sessions</text>
+  </g>
+
+  <!-- AI Search (database/network category — using ml badge for visual variety) -->
+  <g transform="translate(320,360)">
+    <use href="#ico-az-containers" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">AI Search</text>
+    <text x="28" y="94" text-anchor="middle" font-family="var(--font)" font-size="10.5" fill="var(--muted)">Vector index</text>
+  </g>
+  <!-- Key Vault -->
+  <g transform="translate(480,360)">
+    <use href="#ico-az-security" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">Key Vault</text>
+    <text x="28" y="94" text-anchor="middle" font-family="var(--font)" font-size="10.5" fill="var(--muted)">API keys</text>
+  </g>
+
+  <!-- Outside VNet but in RG: Storage + Service Bus + Monitor -->
+  <g transform="translate(160,490)">
+    <use href="#ico-az-storage" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">Blob Storage</text>
+    <text x="28" y="94" text-anchor="middle" font-family="var(--font)" font-size="10.5" fill="var(--muted)">Source docs</text>
+  </g>
+  <g transform="translate(320,490)">
+    <use href="#ico-az-integration" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">Service Bus</text>
+    <text x="28" y="94" text-anchor="middle" font-family="var(--font)" font-size="10.5" fill="var(--muted)">Doc events</text>
+  </g>
+  <g transform="translate(480,490)">
+    <use href="#ico-az-compute" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">Functions</text>
+    <text x="28" y="94" text-anchor="middle" font-family="var(--font)" font-size="10.5" fill="var(--muted)">Embed worker</text>
+  </g>
+  <g transform="translate(640,490)">
+    <use href="#ico-az-management" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">Monitor</text>
+    <text x="28" y="94" text-anchor="middle" font-family="var(--font)" font-size="10.5" fill="var(--muted)">Log Analytics</text>
+  </g>
+
+  <!-- End user -->
+  <g transform="translate(990,260)">
+    <use href="#ico-az-end-user" x="0" y="0" width="56" height="56"/>
+    <text x="28" y="78" text-anchor="middle" font-family="var(--font)" font-size="12" font-weight="700" fill="var(--text)">End user</text>
+  </g>
+
+  <!-- Request path -->
+  <g stroke="var(--line)" stroke-width="1.5" fill="none" marker-end="url(#az-arrow)">
+    <path d="M990 288 L222 238"/>
+    <path d="M222 238 L320 238"/>
+    <path d="M380 238 L480 238"/>
+    <path d="M378 252 L640 252"/>
+    <path d="M348 360 L348 270"/>
+  </g>
+  <!-- Ingestion path (private endpoint — Azure-blue dashed) -->
+  <g stroke="var(--line-private)" stroke-width="1.5" fill="none" stroke-dasharray="5,4" marker-end="url(#az-arrow-private)">
+    <path d="M218 518 L320 518"/>
+    <path d="M378 518 L480 518"/>
+    <path d="M508 490 L348 414"/>
+  </g>
+
+  <!-- Step markers -->
+  <g font-family="var(--font)" font-size="11" font-weight="700" fill="var(--step-marker-text)" text-anchor="middle">
+    <g><circle cx="600" cy="232" r="9" fill="var(--step-marker)"/><text x="600" y="236">1</text></g>
+    <g><circle cx="270" cy="232" r="9" fill="var(--step-marker)"/><text x="270" y="236">2</text></g>
+    <g><circle cx="430" cy="232" r="9" fill="var(--step-marker)"/><text x="430" y="236">3</text></g>
+    <g><circle cx="510" cy="246" r="9" fill="var(--step-marker)"/><text x="510" y="250">4</text></g>
+    <g><circle cx="270" cy="514" r="9" fill="var(--step-marker)"/><text x="270" y="518">A</text></g>
+    <g><circle cx="430" cy="514" r="9" fill="var(--step-marker)"/><text x="430" y="518">B</text></g>
+  </g>
+
+  <!-- Inline legend -->
+  <g transform="translate(80,632)">
+    <rect x="0" y="0" width="500" height="40" rx="2" fill="#FAF9F8" stroke="#EDEBE9"/>
+    <line x1="14" y1="14" x2="50" y2="14" stroke="var(--line)" stroke-width="1.5" marker-end="url(#az-arrow)"/>
+    <text x="58" y="18" font-family="var(--font)" font-size="11" fill="var(--text)">Request path (1, 2, 3 …)</text>
+    <line x1="14" y1="30" x2="50" y2="30" stroke="var(--line-private)" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#az-arrow-private)"/>
+    <text x="58" y="34" font-family="var(--font)" font-size="11" fill="var(--text)">Private endpoint / ingestion (A, B, C …)</text>
+  </g>
+</svg>
+
+<h2>Container conventions</h2>
+<p class="note">
+  Subscription — solid Azure-blue <code>#0078D4</code> 1.5px, low-saturation blue chip top-left
+  (<code>#DEECF9</code>) with dark-blue label.<br/>
+  Resource Group — dashed Azure-blue 1.5px (<code>stroke-dasharray="6,4"</code>), same chip style for the label.<br/>
+  VNet — solid darker blue <code>#005A9E</code> 1.5px.<br/>
+  Subnet — solid cyan <code>#50E6FF</code> 1px.<br/>
+  Sharp/near-sharp corners (rx 2) — Azure diagrams favor rectilinear edges over rounded.
+</p>
+
+<h2>Icon conventions</h2>
+<p class="note">
+  Rectangular badge (rx=4) filled with the category color and a white glyph. The Fluent palette is more
+  saturated than the AWS or GCP palettes — use the variables, don't hand-pick. Title 12px Segoe UI bold,
+  subtitle 10.5px muted gray.
+</p>
+
+<h2>Connector conventions</h2>
+<p class="note">
+  Solid neutral gray <code>#605E5C</code> 1.5px for normal flows; dashed Azure-blue
+  <code>#0078D4</code> for VNet integration / private endpoints. Step markers are 9px Azure-blue circles
+  with white bold numbers (request path) or letters (ingestion / private path).
+</p>
+
+</body>
+</html>
